@@ -14,31 +14,41 @@ def index():
 
     return render_template('index.html', gold=session['gold'], activities=session['activities'])
 
+@app.route('/Process', methods=['POST'])
+def Process_form():
+    session['user']=request.form['user']
+    print(f"name submitted: {session['user']}")
+    return redirect('/')
+
+
 @app.route('/process_money' ,methods = ["POST"])
 
 def process_money():
     activity = request.form['action']
+    
+    user = session.get('user')
+    
     if activity == 'farm':
         gold = random.randint(10,20)
-        session['activities'].insert(0,'you got ' + str(gold) + ' from the farmer you hustled')
+        session['activities'].insert(0, user +' got ' + str(gold) + ' from the farmer you hustled.')
         session['gold'] += gold
         print ('you got ' + str(gold))
     if activity == 'cave':
         gold = random.randint(5,10)
-        session['activities'].insert(0,'you got ' + str(gold) + ' from that cave diving trip with that one chick')
+        session['activities'].insert(0,user + ' got ' + str(gold) + ' from that cave diving trip with that one chick.')
         session['gold'] += gold
         print ('you got ' + str(gold))
     if activity == 'house':
         gold = random.randint(2,5)
-        session['activities'].insert(0,'you got ' + str(gold) + ' from the house you hit')
+        session['activities'].insert(0,user +' got ' + str(gold) + ' from the house you hit.')
         session['gold'] += gold
         print ('you got ' + str(gold))
     if activity == 'casino':
         gold = random.randint(-50,50)
-        if 'casino' >= 0:
-            print ('lost')
-
-        session['activities'].insert(0,'you got ' + str(gold))
+        if gold <= 0:
+            session['activities'].insert(0,user +' lost ' + str(gold)+ ' from the casino.')
+        else:
+            session['activities'].insert(0,user + ' got ' + str(gold)+ ' from the casino.')
         session['gold'] += gold
         print ('you got ' + str(gold))
     

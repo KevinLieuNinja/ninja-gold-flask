@@ -18,8 +18,13 @@
         <h3>Your Gold: {{gold}}</h3>
         <form action="/destroy_session" method="POST" class="reset">
           <input type="submit" name="submit" value="Reset" />
+          <h3 style = 'text-align: center;'>Create a User</h3>
         </form>
       </div>
+      <form action='/Process' method='post'>
+          Name: <input type='text' name='user'>              
+          <input type='submit' value='create user'>
+      </form>
       <div class="row">
         <div class="col-md">
           <div class="card">
